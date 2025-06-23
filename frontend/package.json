@@ -1,0 +1,12 @@
+{
+  "name": "@meu-chat-ai/frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "dev": "react-scripts start",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --ignore-path ../.eslintignore",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --ignore-path ../.eslintignore --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\" --ignore-path ../.prettierignore"
+  }
+}

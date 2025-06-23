@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "mypizzeria-ia-chat",
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build:backend": "npm run build --workspace=backend",
+    "start:backend": "npm run start --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "start:frontend": "npm run start --workspace=frontend",
+    "build": "npm workspaces run build",
+    "dev": "concurrently -k \"npm run build:backend && npm run start:backend\" \"npm run build:frontend && npm run start:frontend\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-path .eslintignore",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-path .eslintignore --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\" --ignore-path .prettierignore"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.27.5",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "^3.5.3"
+  }
+}
