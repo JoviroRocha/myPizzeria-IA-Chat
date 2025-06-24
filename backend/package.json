@@ -1,12 +1,16 @@
 {
   "name": "@meu-chat-ai/backend",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "lint": "eslint \"src/**/*.js\" --ignore-path ../.eslintignore",
-    "lint:fix": "eslint \"src/**/*.js\" --ignore-path ../.eslintignore --fix",
-    "format": "prettier --write \"src/**/*.{js,json,md}\" --ignore-path ../.prettierignore",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "build": "echo \"No build step for backend\""
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "openai": "^5.7.0",
+    "sequelize": "^6.37.7"
   }
 }
