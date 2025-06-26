@@ -1,18 +1,35 @@
-import sequelize, { Sequelize } from "sequelize";
+import { promises as fs } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { Message } from "../models/messageModel.js";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 export class MessagesService {
+  constructor() {
+    this.promptTemplate = null;
+    this._initPrompt();
+  }
+
+  async _initPrompt() {
+    this.promptTemplate = await createPrompt();
+  }
+
   async listAll() {
     return Message.findAll();
   }
 
   async createAndReply(userText) {
+    if (!this.promptTemplate) {
+      await this._initPrompt();
+    }
+
+    const prompt = [this.promptTemplate.trim(), "CUSTOMER_MESSAGE:", userText].join("\n\n");
+
     const resp = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: userText }],
+      messages: [{ role: "user", content: prompt }],
     });
 
     const botText =
@@ -28,9 +45,30 @@ export class MessagesService {
       });
     } catch (error) {
       console.error("Error creating records: ", error);
-      return "Oops! We're having a little server issue right now. Please try again in a few moments or call us. Thanks for your patience!";
+      return "Sorry, I'm unable to answer your question right now. Please try asking a simpler question or try again in a few moments. You can also reach us by phone. Thank you for your patience!";
     }
 
     return botText;
   }
+}
+
+async function createPrompt() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const promptInstructions = await fs.readFile(path.join(__dirname, "../constants/promptTemplate.txt"), "utf8");
+
+  const menuJSON = await fs.readFile(path.join(__dirname, "../constants/menu.json"), "utf8");
+  const menuObj = JSON.parse(menuJSON);
+
+  let menuText = "MENU:\n";
+  for (const [category, items] of Object.entries(menuObj)) {
+    menuText += `${category}:\n`;
+    for (const [name, price] of Object.entries(items)) {
+      menuText += `  • ${name} – ${price}\n`;
+    }
+    menuText += "\n";
+  }
+
+  return [promptInstructions.trim(), "----------", menuText.trim()].join("\n\n");
 }

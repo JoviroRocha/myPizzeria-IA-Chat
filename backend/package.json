@@ -1,5 +1,5 @@
 {
-  "name": "@meu-chat-ai/backend",
+  "name": "@my-chat-ai/backend",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -8,6 +8,7 @@
     "build": "echo \"No build step for backend\""
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
     "openai": "^5.7.0",

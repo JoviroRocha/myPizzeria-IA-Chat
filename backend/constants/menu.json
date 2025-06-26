@@ -1,0 +1,5 @@
+{
+  "Drinks": { "Coca-Cola": "R$10,00", "Pepsi": "R$20,00" },
+  "Pizzas": { "Margherita": "R$100,00", "Pepperoni": "R$90,00" },
+  "Desserts": { "Chocolate Cake": "R$30,00", "Cheesecake": "R$50,00" }
+}
