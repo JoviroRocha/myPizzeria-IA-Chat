@@ -6,10 +6,12 @@ export default function ChatPage() {
   const [text, setText] = useState("");
   const scrollRef = useRef();
 
+  const backendURL = process.env.BACKEND_URL;
+
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await axios.get("http://localhost:3001/messages");
+        const res = await axios.get(backendURL);
         setMessages(res.data);
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
       } catch (err) {
@@ -25,9 +27,9 @@ export default function ChatPage() {
     e.preventDefault();
     if (!text.trim()) return;
     try {
-      await axios.post("http://localhost:3001/messages", { message: text });
+      await axios.post(backendURL, { message: text });
       setText("");
-      const res = await axios.get("http://localhost:3001/messages");
+      const res = await axios.get(backendURL);
       setMessages(res.data);
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     } catch (err) {
